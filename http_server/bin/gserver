@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# Usage: gserver [document root] [port = 3000]
+
+require 'gserver'
+require File.dirname(__FILE__) + "/../lib/http_server"
+
+class WebServer < GServer
+  attr_accessor :router
+
+  def initialize(port = 12321, *args)
+    super
+  end
+
+  def serve(io)
+    request = HttpServer::Request.new(read_http(io))
+    response = @router.handle_request(request)
+    io.puts(response.raw_http)
+  end
+
+  private
+  def read_http(io)
+    raw_request = ""
+    io.each_line do |line|
+      break if line == "\r\n"
+      raw_request << line
+    end
+    raw_request
+  end
+end
+
+# Initialize the router
+router = HttpServer::Router.new(ARGV[0])
+router.add_handler("/time") do |request, response|
+  response.body = "The time is: #{Time.now}"
+end
+
+# Start the server
+server = WebServer.new(ARGV[1] || 3000)
+server.router = router
+server.audit = true
+server.start
+server.join
