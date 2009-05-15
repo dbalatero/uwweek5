@@ -15,7 +15,7 @@ class ChatClientRunner
 
   # do the thing
   def run
-    while(command = gets)
+    while(command = $stdin.gets)
       parse_command(command)
     end
   end 
@@ -26,9 +26,28 @@ class ChatClientRunner
     # message command
     if command.match(/##message##.*##/)
       # find the channel and message
-      channel, message = command.split(/##/)[2], command.split(/##/)[3]
+      channel_name, message_contents = command.split(/##/)[2], command.split(/##/)[3]
 
-      puts "Channel: #{channel}, message: #{message}"
+      # send the message
+      @chat_client.send_message(channel_name, message_contents)
+    end
+
+    # join command
+    if command.match(/##join##.*##/)
+      # find the channel name
+      channel_name = command.split(/##/)[2]
+
+      # join the channel
+      @chat_client.join(channel_name)
+    end
+
+    # leave command
+    if command.match(/##leave##.*##/)
+      # find the channel name
+      channel_name = command.split(/##/)[2]
+
+      # leave the channel
+      @chat_client.leave(channel_name)
     end
   end
 end
