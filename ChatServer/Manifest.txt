@@ -4,4 +4,7 @@ README.txt
 Rakefile
 bin/chat_server
 lib/chat_server.rb
+lib/chat_client.rb
+bin/chat_server_runner.rb
+bin/chat_client_runner.rb
 test/test_chat_server.rb

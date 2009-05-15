@@ -1,32 +1,44 @@
 = ChatServer
 
-* FIX (url)
+* http://github.com/dbalatero/uwweek5/tree/master 
 
 == DESCRIPTION:
 
-FIX (describe your package)
+This is a DRb-based chat server and client.  It supports multiple channels and users.  
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+drb-based centralized chat server & client
+
+    * port 31337
+    * multiple users, nick
+    * multiple channels
+    * join/leave
+    * no protocol otherwise
+    * client does no authentication, just connects.
+    * server announces connection, etc.
+    * protocol is objects, not text.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+To run chat server: ruby bin/chat_server_runner.rb
+To run chat client: ruby bin/chat_client_runner.rb <nickname> <user_name>
+
+In the client, the syntax for joining a channel is "##join##channel_name##".  The syntax for leaving a channel is "##leave##channel_name##".  The syntax for sending a message is "##channel_name##message".
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+N/A (just standard Ruby libraries)
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+N/A
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 Peter Held, David Balatero
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
