@@ -40,5 +40,11 @@ class ChatServer
     end
   end
 
+  def send_message(from_nick, channel, message_contents)
+    # this tells DRb that there's something ready for sending
+    changed(true)
+    # this notifies all observers (duh)
+    notify_observers(from_nick, channel, message_contents)
+  end
 
 end

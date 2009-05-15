@@ -2,6 +2,9 @@ require 'rubygems'
 require 'test/unit'
 require 'spec'
 require 'lib/chat_server.rb'
+require 'drb'
+require 'drb/observer'
+
 describe ChatServer do
   before(:each) do
     @chat_server = ChatServer.new
@@ -72,6 +75,22 @@ describe ChatServer do
       @chat_server.leave('Nickname_1', 'Channel_1')
       @chat_server.leave('Nickname_2', 'Channel_1')
       @chat_server.channels['Channel_1'].should be_nil
+    end
+
+  end
+
+  describe ".send_message" do
+
+    before(:each) do
+      @chat_server.join('Nickname_1', 'User_1', 'Channel_1')
+      @chat_server.join('Nickname_2', 'User_2', 'Channel_1')
+      @chat_server.join('Nickname_3', 'User_3', 'Channel_2')
+    end
+
+    it "should send a message with the nickname, channel and message text" do
+      @chat_server.should_receive(:changed).with(true)
+      @chat_server.should_receive(:notify_observers).with('Nickname_1', 'Channel_1', 'Here come the drums (CONFUSION!)')
+      @chat_server.send_message('Nickname_1', 'Channel_1', 'Here come the drums (CONFUSION!)')
     end
 
   end
