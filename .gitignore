@@ -4,6 +4,6 @@ tmp/**/*
 doc/api
 doc/app
 db/*.sqlite3
-**/*.swp
+*.swp
 ChatServer/lib/.chat_client.rb.swp
 ChatServer/spec/.chat_client_spec.rb.swp
