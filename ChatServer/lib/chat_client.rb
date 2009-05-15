@@ -23,6 +23,9 @@ class ChatClient
     # messages
     unless channels.include?(channel_name)
       channels.add(channel_name)
+
+      # announce the fact that this client has joined this channel
+      @chat_server.send_message(@nickname, channel_name, "#{@nickname} has joined #{channel_name}")
     end
   end
 
@@ -30,6 +33,9 @@ class ChatClient
     # remove the specified channel from the list
     if channels.include?(channel_name)
       channels.delete(channel_name)
+
+      # announce the fact that this client has left this channel
+      @chat_server.send_message(@nickname, channel_name, "#{@nickname} has left #{channel_name}")
     end
   end
 

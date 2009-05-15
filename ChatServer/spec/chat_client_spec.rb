@@ -27,10 +27,16 @@ describe ChatClient do
     end
 
     it "should add the specified channel to the list of channels" do
+      @chat_server.should_receive(:send_message)
       @chat_client.join('Channel_1')
       @chat_client.channels.length.should eql(1)
       @chat_client.channels.include?('Channel_1').should be_true
     end 
+
+    it "should announce the fact that this user has joined a channel" do
+      @chat_server.should_receive(:send_message).with('Nickname_1', 'Channel_1', 'Nickname_1 has joined Channel_1')
+      @chat_client.join('Channel_1')
+    end
 
   end
 
@@ -38,12 +44,14 @@ describe ChatClient do
 
     before(:each) do
       @chat_server.should_receive(:add_observer)
+      @chat_server.should_receive(:send_message).twice
       @chat_client = ChatClient.new('Nickname_1', 'User_1', @chat_server)
       @chat_client.join('Channel_1')
       @chat_client.join('Channel_2')
     end
 
     it "should remove the specified channel from the list of channels" do
+      @chat_server.should_receive(:send_message)
       @chat_client.channels.length.should eql(2)
       @chat_client.channels.include?('Channel_1').should be_true
       @chat_client.channels.include?('Channel_2').should be_true
@@ -53,12 +61,18 @@ describe ChatClient do
       @chat_client.channels.include?('Channel_2').should be_true
     end
 
+    it "should announce that this user has left a channel" do
+      @chat_server.should_receive(:send_message).with('Nickname_1', 'Channel_1', 'Nickname_1 has left Channel_1')
+      @chat_client.leave('Channel_1')
+    end
+
   end
 
   describe ".send_message" do
 
     before(:each) do
       @chat_server.should_receive(:add_observer)
+      @chat_server.should_receive(:send_message)
       @chat_client = ChatClient.new('Nickname_1', 'User_1', @chat_server)
       @chat_client.join('Channel_1')
     end
@@ -74,6 +88,7 @@ describe ChatClient do
 
     before(:each) do
       @chat_server.should_receive(:add_observer)
+      @chat_server.should_receive(:send_message)
       @chat_client = ChatClient.new('Nickname_1', 'User_1', @chat_server)
       @chat_client.join('Channel_1')
     end
