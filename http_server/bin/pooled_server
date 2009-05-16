@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+# Usage: pooled_server [document root] [port = 3000] [num threads = 20]
+
+require 'socket'
+require File.dirname(__FILE__) + "/../lib/http_server"
+
+# Initialize the router
+router = HttpServer::Router.new(ARGV[0])
+router.add_handler("/time") do |request, response|
+  response.body = "The time is: #{Time.now}"
+end
+
+pool = HttpServer::ThreadPool.new(router, (ARGV[2] || 20))
+server = TCPServer.new(ARGV[1] || 3000)
+
+while socket = server.accept
+  pool.run_request(socket)
+end
