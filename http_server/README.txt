@@ -1,32 +1,28 @@
 = http_server
 
-* FIX (url)
+* http://github.com/dbalatero/uwweek5/tree/master 
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Provides two types of web servers -- thread-per-request, and thread pooled
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
-
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+ See bin/gserver or bin/pooled_server for more info.
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
-
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+ * no install
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 David Balatero, Peter Held
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
