@@ -5,6 +5,8 @@ require 'gserver'
 require File.dirname(__FILE__) + "/../lib/http_server"
 
 class WebServer < GServer
+  include HttpServer::ServerMethods
+
   attr_accessor :router
 
   def initialize(port = 12321, *args)
@@ -15,16 +17,6 @@ class WebServer < GServer
     request = HttpServer::Request.new(read_http(io))
     response = @router.handle_request(request)
     io.puts(response.raw_http)
-  end
-
-  private
-  def read_http(io)
-    raw_request = ""
-    io.each_line do |line|
-      break if line == "\r\n"
-      raw_request << line
-    end
-    raw_request
   end
 end
 
